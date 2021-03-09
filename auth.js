@@ -7,31 +7,37 @@ auth.onAuthStateChanged(user => {
 })
 
 const logout = document.querySelector('#logout');
+
+//Logout event
 logout.addEventListener('click', e => {
-    e.preventDefault()
+    e.preventDefault();
     auth.signOut();
 })
 
+//Login authentification
 const loginForm = document.querySelector('#login-form');
-console.log(loginForm['login-email'].value)
+
 loginForm.addEventListener('submit', e => {
     e.preventDefault();
+
     const email = loginForm['login-email'].value;
     const password = loginForm['login-password'].value;
+
     auth.signInWithEmailAndPassword(email, password).then(() => {
+
         const modal = document.querySelector('#modal-login');
         M.Modal.getInstance(modal).close();
         loginForm.querySelector('.error').innerHTML = '';
         loginForm.reset();
 
     }).catch(err => {
-        loginForm.querySelector('.error').innerHTML = err.message
+        loginForm.querySelector('.error').innerHTML = err.message;
     })
 })
 
+//Signup comprobation and post
 const signupForm = document.querySelector('#signup-form');
-console.log(signupForm['signup-email'].value)
-signupForm.addEventListener('submit', e => {
+ signupForm.addEventListener('submit', e => {
     e.preventDefault();
     const email = signupForm['signup-email'].value;
     const password = signupForm['signup-password'].value;
@@ -42,6 +48,6 @@ signupForm.addEventListener('submit', e => {
         signupForm.reset();
 
     }).catch(err => {
-        signupForm.querySelector('.error').innerHTML = err.message
+        signupForm.querySelector('.error').innerHTML = err.message;
     })
 })

@@ -1,8 +1,24 @@
 const todoList = document.querySelector('#todo-list');
 const form = document.querySelector('#add-todo-form');
 const updateBtn = document.querySelector('#update');
+const logoutItems = document.querySelectorAll('.logged-out');
+const loginItems = document.querySelectorAll('.logged-in');
+
 let newTitle = '';
 let updateId = null;
+let currentUser = null;
+
+//Interactive buttons
+function setupUI(user){
+    if(user){
+        loginItems.forEach(item => item.style.display = 'block');
+        logoutItems.forEach(item => item.style.display = 'none');
+    }else{
+        loginItems.forEach(item => item.style.display = 'none');
+        logoutItems.forEach(item => item.style.display = 'block');
+
+    }
+}
 
 //Render li div to document
 function renderList(doc){
@@ -74,22 +90,31 @@ form.addEventListener('submit', e => {
     form.title.value = '';
 })
 
-db.collection('todos').orderBy('title').onSnapshot(snapshot => {
+function getTodos(){
+    todoList.innnerHTML = ''
+    currentUser = auth.currentUser;
 
-    //Initializing elements that are in firebase
-    let changes = snapshot.docChanges()
+    if(currentUser === null){
+        todoList.innerHTML = '<h3>Please, login to get all TODOS</h3>'
+    }
 
-    //Populate elements of firebase
-    changes.forEach(change => {
-        if (change.type == 'added') {
-            renderList(change.doc);
-        } else if (change.type == 'removed') {
-            let li = todoList.querySelector(`[data-id=${change.doc.id}]`);
-            todoList.removeChild(li);
-        } else if (change.type == 'modified') {
-            let li = todoList.querySelector(`[data-id=${change.doc.id}]`);
-            li.getElementsByTagName('span')[0].textContent = newTitle;
-            newTitle = '';
-        }
-    });
-})
+    db.collection('todos').orderBy('title').onSnapshot(snapshot => {
+
+        //Initializing elements that are in firebase
+        let changes = snapshot.docChanges()
+    
+        //Populate elements of firebase
+        changes.forEach(change => {
+            if (change.type == 'added') {
+                renderList(change.doc);
+            } else if (change.type == 'removed') {
+                let li = todoList.querySelector(`[data-id=${change.doc.id}]`);
+                todoList.removeChild(li);
+            } else if (change.type == 'modified') {
+                let li = todoList.querySelector(`[data-id=${change.doc.id}]`);
+                li.getElementsByTagName('span')[0].textContent = newTitle;
+                newTitle = '';
+            }
+        });
+    })
+}
