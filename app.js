@@ -1,37 +1,55 @@
-
 const todoList = document.querySelector('#todo-list');
 const form = document.querySelector('#add-todo-form');
 const updateBtn = document.querySelector('#update');
 let newTitle = '';
 let updateId = null;
 
-//Render elements
+//Render li div to document
 function renderList(doc){
+
+    //Initializing list 
     let li = document.createElement('li');
     li.className = "collection-item";
     li.setAttribute('data-id', doc.id);
+
+    //Initializing div 
     let div = document.createElement('div');
+
+    
+    //Initializing span 
     let title = document.createElement('span');
     title.textContent = doc.data().title;
+
+    //Hiperlink attr.
     let anchor = document.createElement('a');
     anchor.href = "#modal1";
     anchor.className = "modal-trigger secondary-content";
+
+    //Not italized item ;)
     let editBtn = document.createElement('i');
     editBtn.className = "material-icons";
     editBtn.innerText = "edit";
+
+    //Initializing delete button
     let deleteBtn = document.createElement('i');
     deleteBtn.type= "button"
     deleteBtn.className = "material-icons secondary-content btn-flat";
     deleteBtn.innerText = "delete";
+
+    //Creating DOM tree structure
     anchor.appendChild(editBtn);
     div.appendChild(title);
     div.appendChild(deleteBtn);
     div.appendChild(anchor);
     li.appendChild(div);
+
+    //Events to delete and update edited things
+
     deleteBtn.addEventListener('click', e => {
         let id = e.target.parentElement.parentElement.getAttribute('data-id');
         db.collection('todos').doc(id).delete();
     })
+
     editBtn.addEventListener('click', e => {
         updateId = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
     })
@@ -39,14 +57,15 @@ function renderList(doc){
     todoList.append(li);
 }
 
+//Taking the title value on the input site
 updateBtn.addEventListener('click', e => {
-
     newTitle = document.getElementsByName('newtitle')[0].value;
     db.collection('todos').doc(updateId).update({
         title: newTitle
     })
 })
 
+//To add the new title to the firebase
 form.addEventListener('submit', e => {
     e.preventDefault();
     db.collection('todos').add({
@@ -56,11 +75,14 @@ form.addEventListener('submit', e => {
 })
 
 db.collection('todos').orderBy('title').onSnapshot(snapshot => {
+
+    //Initializing elements that are in firebase
     let changes = snapshot.docChanges()
+
+    //Populate elements of firebase
     changes.forEach(change => {
         if (change.type == 'added') {
             renderList(change.doc);
-
         } else if (change.type == 'removed') {
             let li = todoList.querySelector(`[data-id=${change.doc.id}]`);
             todoList.removeChild(li);
