@@ -10,6 +10,7 @@
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-auth.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -19,8 +20,14 @@
 </head>
 <body>
     <nav>
-        <div class="nav-wrapper">
-          <a href="#" class="brand-logo">To Do</a>
+        <div class="nav-wrapper container">
+          <a href="#" class="brand-logo right">To Do</a>
+          <ul id = "nav-mobile">
+            <li class="logged-in"><a href="#" id="logout">Logout</a></li>
+            <li class="logged-out"><a href="#" class="modal-trigger" data-target="modal-login">Login</a></li>
+            <li class="logged-out"><a href="#" class="modal-trigger" data-target="modal-signup">Sign up</a></li>
+
+        </ul>
         </div>
       </nav>
       <div class="container">
@@ -30,17 +37,60 @@
         </form>
 
         <ul id="todo-list" class="collection">
-
             <!-- <li class="collection-item">
                 <div><span>Buying food</span>
                     <i class="material-icons secondary-content">delete</i>
                     <a href="#modal1" class="modal-trigger secondary-content"> <i class="material-icons ">edit</i></a>
                 </div>
             </li> -->
-
         </ul>
-        <!-- Modal Structure -->
-        <div id="modal1" class="modal">
+
+        <!-- LOGIN MODAL -->
+        <div id="modal-login" class="modal">
+            <div class="modal-content">
+                <h4>Login</h4>
+                <form action="" id="login-form">
+                    <div class="input-field">
+                        <input type="email" id="login-email" required>
+                        <label>Email address</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="login-password" required>
+                        <label>Password</label>
+                    </div>
+                    <p class="error pink-text center-align"></p>
+                    <div class="modal-footer">
+                        <button class="waves-effect waves-green btn-flat">login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- SIGNUP MODAL -->
+        <div id="modal-signup" class="modal">
+            <div class="modal-content">
+                <h4>Sign up</h4>
+                <form action="" id="signup-form">
+                    <div class="input-field">
+                        <input type="email" id="signup-email" required>
+                        <label>Email address</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="signup-password" required>
+                        <label>Password</label>
+                    </div>
+                    <p class="error pink-text center-align"></p>
+                    <div class="modal-footer">
+                        <button class="waves-effect waves-green btn-flat">signup</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div id="modal-edit" class="modal">
             <div class="modal-content">
                 <input type="text" name="newtitle" placeholder="Update Task">
             </div>
@@ -66,7 +116,11 @@
 
   firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+    const auth = firebase.auth();
+
 </script>
 <script src="/Prg-1/todolist/app.js"></script>
+<script src="/Prg-1/todolist/auth.js"></script>
+
 </body>
 </html>

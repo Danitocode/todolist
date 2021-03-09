@@ -22,7 +22,7 @@ function renderList(doc){
 
     //Hiperlink attr.
     let anchor = document.createElement('a');
-    anchor.href = "#modal1";
+    anchor.href = "#modal-edit";
     anchor.className = "modal-trigger secondary-content";
 
     //Not italized item ;)
