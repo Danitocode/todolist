@@ -63,7 +63,7 @@ function renderList(doc){
 
     deleteBtn.addEventListener('click', e => {
         let id = e.target.parentElement.parentElement.getAttribute('data-id');
-        db.collection('todos').doc(id).delete();
+        db.collection('alltodos').doc(currentUser.uid).collection('todos').doc(id).delete();
     })
 
     editBtn.addEventListener('click', e => {
@@ -76,7 +76,7 @@ function renderList(doc){
 //Taking the title value on the input site
 updateBtn.addEventListener('click', e => {
     newTitle = document.getElementsByName('newtitle')[0].value;
-    db.collection('todos').doc(updateId).update({
+    db.collection('alltodos').doc(currentUser.uid).collection('todos').update({
         title: newTitle
     })
 })
@@ -84,21 +84,24 @@ updateBtn.addEventListener('click', e => {
 //To add the new title to the firebase
 form.addEventListener('submit', e => {
     e.preventDefault();
-    db.collection('todos').add({
+    db.collection('alltodos').doc(currentUser.uid).collection('todos').add({
         title: form.title.value
     })
     form.title.value = '';
 })
 
 function getTodos(){
-    todoList.innnerHTML = ''
+    todoList.innerHTML = '';
     currentUser = auth.currentUser;
 
+    document.querySelector('#user-email').innerHTML = (currentUser != null ? currentUser.email : '' );
+
     if(currentUser === null){
-        todoList.innerHTML = '<h3>Please, login to get all TODOS</h3>'
+        todoList.innerHTML = '<h3 class="center-align">Please login to get todos</h3>';
+        return;
     }
 
-    db.collection('todos').orderBy('title').onSnapshot(snapshot => {
+    db.collection('alltodos').doc(currentUser.uid).collection('todos').orderBy('title').onSnapshot(snapshot => {
 
         //Initializing elements that are in firebase
         let changes = snapshot.docChanges()
