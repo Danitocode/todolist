@@ -26,29 +26,26 @@
       <div class="container">
         <form id="add-todo-form">
             <input type="text" name="title" placeholder="Add Task">
-            <a class="waves-effect waves-light btn">Add Task</a>
+            <button class="waves-effect waves-light btn">Add Task</button>
         </form>
 
-        <ul class="collection ">
+        <ul id="todo-list" class="collection">
 
-            <li class="collection-item">
+            <!-- <li class="collection-item">
                 <div><span>Buying food</span>
                     <i class="material-icons secondary-content">delete</i>
                     <a href="#modal1" class="modal-trigger secondary-content"> <i class="material-icons ">edit</i></a>
                 </div>
-            </li>
+            </li> -->
 
         </ul>
-
-
         <!-- Modal Structure -->
         <div id="modal1" class="modal">
             <div class="modal-content">
-                <h4>Modal Header</h4>
-                <p>A bunch of text</p>
+                <input type="text" name="newtitle" placeholder="Update Task">
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                <a href="#!" id="update" class="modal-close waves-effect waves-green btn-flat">Update</a>
             </div>
         </div>
     </div>
@@ -59,17 +56,17 @@
     });
     
     var firebaseConfig = {
-        apiKey: "AIzaSyDw6EMGYSSerEdy5CfjLMkGB1jLwJijbaw",
-        authDomain: "todolist-98371.firebaseapp.com",
-        projectId: "todolist-98371",
-        storageBucket: "todolist-98371.appspot.com",
-        messagingSenderId: "713824769468",
-        appId: "1:713824769468:web:30a0d7859e9b370f37c7b9"
-    };
+    apiKey: "AIzaSyC__43i4foJDTu1OSNHIOI2i-I7rBBQa0Y",
+    authDomain: "todolist-c7927.firebaseapp.com",
+    projectId: "todolist-c7927",
+    storageBucket: "todolist-c7927.appspot.com",
+    messagingSenderId: "300603756567",
+    appId: "1:300603756567:web:2cacc85ebc03df9b69cc52"
+  };
 
-    firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 </script>
-<script src="/Prg-1/2-ToDoList/app.js"></script>
+<script src="/Prg-1/todolist/app.js"></script>
 </body>
 </html>
